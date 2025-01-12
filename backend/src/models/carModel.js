@@ -11,6 +11,7 @@ const CarSchema = new mongoose.Schema({
     fuelType: { type: String, required: true }, // e.g., 'Gasoline', 'Diesel', 'Electric'
     availability: { type: Boolean, default: true }, // Indicates if the car is available for rent
     images: [String], // Array to store image URLs
+    availability: { type: Number, default: 0 },
 }, { timestamps: true });
 
 const Car = mongoose.model("Car", CarSchema);

@@ -5,8 +5,6 @@ import EditProfile from "./EditProfile";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("orders");
-
-  // Retrieve user data from the Redux store
   const user = useSelector((state) => state.auth.user);
 
   return (
@@ -60,12 +58,9 @@ const UserProfile = () => {
             ))}
           </div>
         </div>
-
         {/* Main Content */}
         <div className="w-3/4 p-6 bg-white rounded-r-lg">
-        
           {activeTab === "profile" && <EditProfile />}
-          
         </div>
       </div>
     </div>

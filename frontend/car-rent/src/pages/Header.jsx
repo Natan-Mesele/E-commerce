@@ -83,7 +83,7 @@ function Header() {
                     </svg>
                 </button>
                 <nav className="flex flex-col space-y-4 px-6 py-16">
-                    <Link to="/tour-car" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
+                    <Link to="/" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
                         <span>🚗</span>
                         <span>Tour Car</span>
                     </Link>
@@ -91,11 +91,11 @@ function Header() {
                         <span>💍</span>
                         <span>Wedding Car</span>
                     </Link>
-                    <Link to="/contact-us" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
+                    <Link to="/contact" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
                         <span>📄</span>
                         <span>Contact Us</span>
                     </Link>
-                    <Link to="/about-us" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
+                    <Link to="/about" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
                         <span>ℹ️</span>
                         <span>About Us</span>
                     </Link>
@@ -121,7 +121,7 @@ function Header() {
             </div>
             {/* Desktop Navigation Menu */}
             <nav className="hidden md:flex space-x-6">
-                <Link to="/tour-car" className="flex items-center space-x-2 hover:text-gray-500">
+                <Link to="/" className="flex items-center space-x-2 hover:text-gray-500">
                     <span>🚗</span>
                     <span>Tour Car</span>
                 </Link>
@@ -129,11 +129,11 @@ function Header() {
                     <span>💍</span>
                     <span>Wedding Car</span>
                 </Link>
-                <Link to="/contact-us" className="flex items-center space-x-2 hover:text-gray-500">
+                <Link to="/contact" className="flex items-center space-x-2 hover:text-gray-500">
                     <span>📄</span>
                     <span>Contact Us</span>
                 </Link>
-                <Link to="/about-us" className="flex items-center space-x-2 hover:text-gray-500">
+                <Link to="/about" className="flex items-center space-x-2 hover:text-gray-500">
                     <span>ℹ️</span>
                     <span>About Us</span>
                 </Link>

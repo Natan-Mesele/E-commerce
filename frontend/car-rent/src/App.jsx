@@ -7,6 +7,9 @@ import LoginDropdown from './Auth/LoginDropdown';
 import CarList from './car/CarList';
 import SignUp from './Auth/SignUp';
 import CheckOut from './pages/CheckOut';
+import ContactUs from './pages/ContactUs';
+import About from './pages/About';
+import CarDetail from './car/CarDetail';
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
         <Route path="/cars" element={<CarList />} />
         <Route path="/check" element={<CheckOut />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/car/:carId" element={<CarDetail />} />
       </Routes>
     </>
   );

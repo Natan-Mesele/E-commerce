@@ -1,59 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CarCard from './CarCard';
+import CarDetail from './CarDetail';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllCars } from '../Redux/car/Action';
 
 const CarList = () => {
-    const car = [
-        {
-            "name": "Tesla Model S",
-            "brand": "Tesla",
-            "model": "Model S",
-            "year": 2022,
-            "pricePerDay": 100,
-            "seats": 5,
-            "transmission": "Automatic",
-            "fuelType": "Electric",
-            "images": [
-                "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            ]
-        },
-        {
-            "name": "Toyota Corolla Altis",
-            "brand": "Toyota",
-            "model": "Altis",
-            "year": 2021,
-            "pricePerDay": 50,
-            "seats": 5,
-            "transmission": "Automatic",
-            "fuelType": "Gasoline",
-            "images": [
-                "https://plus.unsplash.com/premium_photo-1670963965022-59c9ac468c18?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            ]
-        },
-        {
-            "name": "Honda Civic Sport",
-            "brand": "Honda",
-            "model": "Sport",
-            "year": 2023,
-            "pricePerDay": 70,
-            "seats": 9,
-            "transmission": "Automatic",
-            "fuelType": "Hybrid",
-            "images": [
-                "https://images.unsplash.com/photo-1494697536454-6f39e2cc972d?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            ]
-        }
-    ];
+    const [selectedCar, setSelectedCar] = useState(null); // To hold selected car
+    const [showPopup, setShowPopup] = useState(false); // To control the visibility of the pop-up
+    const dispatch = useDispatch();
+    const { cars, loading, error } = useSelector((state) => state.cars);
+
+    useEffect(() => {
+        dispatch(fetchAllCars());
+    }, [dispatch]);
+
+    const handleBookNow = (car) => {
+        setSelectedCar(car); // Set the selected car
+        setShowPopup(true);   // Show the popup
+    };
+
+    const closePopup = () => {
+        setShowPopup(false);  // Close the popup
+        setSelectedCar(null);  // Clear the selected car
+    };
 
     return (
         <div className="py-12 px-6 mx-auto max-w-7xl">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
                 Cars for Rent
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {car.map((cars, index) => (
-                    <CarCard key={index} car={cars} />
-                ))}
-            </div>
+
+            {loading ? (
+                <p className="text-center text-gray-600">Loading cars...</p>
+            ) : error ? (
+                <p className="text-center text-red-600">{error}</p>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {(Array.isArray(cars) && cars.length > 0) ? (
+                        cars.map((car, index) => (
+                            <CarCard key={index} car={car} onBookNow={() => handleBookNow(car)} />
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-600">No cars available</p>
+                    )}
+                </div>
+            )}
+
+            {showPopup && selectedCar && (
+                <CarDetail car={selectedCar} onClose={closePopup} />
+            )}
         </div>
     );
 };

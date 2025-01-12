@@ -20,13 +20,13 @@ export const register = (userData) => async (dispatch) => {
       if (data.jwt) {
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("userId", data.id);
-        localStorage.setItem("restaurantId", data.id);
+        localStorage.setItem("carId", data.id);
         dispatch({
           type: LOGIN_SUCCESS,
           payload: {
             jwt: data.jwt,
             userId: data.id,
-            restaurantId: data.id,
+            carId: data.id,
           },
         });
       }
