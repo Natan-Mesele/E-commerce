@@ -23,20 +23,24 @@ const CarDetail = ({ car, onClose }) => {
         return duration * pricePerDay; // Calculate total cost
     };
 
-    const handleBookNow = () => {
+    const handleBookNow = async () => {
         const start = new Date(startDate);
         const end = new Date(endDate);
+
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-            console.error("Invalid dates");
+            alert("Please select valid dates for rental.");
             return;
         }
+
         const rentalDuration = Math.ceil((end - start) / (1000 * 3600 * 24));
-    
+
         if (rentalDuration <= 0) {
-            console.error("Invalid rental duration");
+            alert("The rental duration must be at least 1 day.");
             return;
         }
+
         const totalAmount = rentalDuration * car.pricePerDay;
+
         const bookingData = {
             carId: car._id,
             rentalStartDate: startDate,
@@ -44,10 +48,22 @@ const CarDetail = ({ car, onClose }) => {
             rentalDuration,
             totalAmount,
         };
-        dispatch(createBooking(bookingData));
-        onClose();
+
+        try {
+            // Dispatch the booking action
+            await dispatch(createBooking(bookingData));
+            alert("Booking successful!"); // Notify success
+            onClose(); // Close the modal
+        } catch (error) {
+            const errorMessage = error.message || "An error occurred.";
+            if (errorMessage === "No availability for this car") {
+                alert("Sorry, this car is no longer available."); // Notify unavailability
+            } else {
+                alert("Sorry, this car is no longer available. Please try again."); // Notify other errors
+            }
+        }
     };
-    
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full sm:max-w-lg md:max-w-2xl">

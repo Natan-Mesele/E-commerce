@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CarList from '../car/CarList';
 import StatsSection from './StatsSection';
 import HowItWorks from './HowItWorks';
 import Footer from './Footer';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../Redux/Auth/Action';
 
 const HomePage = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getUser())
+    }, [dispatch])
+
     return (
         <section 
             className="relative bg-cover bg-center h-[75vh]" 

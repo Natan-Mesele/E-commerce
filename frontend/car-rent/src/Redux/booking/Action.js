@@ -14,9 +14,12 @@ export const createBooking = (bookingData) => async (dispatch) => {
       dispatch({
         type: CREATE_BOOKING_FAILURE,
         payload: error.response ? error.response.data : error.message,
-      });
-    }
-  };
+    });
+
+    // Rethrow the error to be handled by the caller
+    throw new Error(error.response ? error.response.data.message : error.message);
+}
+};
   
   // Get Booking By ID
   export const getBookingById = (bookingId) => async (dispatch) => {

@@ -38,23 +38,38 @@ module.exports = {
 
     async createBooking(userId, carId, rentalStartDate, rentalEndDate) {
         try {
-            // Calculate the total amount based on the car and rental dates
+            // Fetch the car details
+            const car = await Car.findById(carId);
+            if (!car) {
+                throw new Error('Car not found');
+            }
+    
+            // Check if the car has sufficient availability
+            if (car.availability <= 0) {
+                throw new Error('No availability for this car');
+            }
+    
+            // Calculate the total amount
             const totalAmount = await this.calculateTotalAmount(carId, rentalStartDate, rentalEndDate);
     
             // Create the booking
             const booking = await Booking.create({
-                user: userId,  // Ensure the correct user ID is passed
-                car: carId,    // Ensure the correct car ID is passed
+                user: userId,
+                car: carId,
                 rentalStartDate,
                 rentalEndDate,
-                totalAmount,   // Ensure totalAmount is passed
+                totalAmount,
             });
+    
+            // Decrease the car's availability
+            car.availability -= 1;
+            await car.save(); // Save the updated availability
     
             return booking;
         } catch (error) {
             throw new Error(error.message);
         }
-    },
+    },    
 
     async getBookingById(bookingId) {
         try {
