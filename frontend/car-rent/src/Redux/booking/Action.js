@@ -15,8 +15,6 @@ export const createBooking = (bookingData) => async (dispatch) => {
         type: CREATE_BOOKING_FAILURE,
         payload: error.response ? error.response.data : error.message,
     });
-
-    // Rethrow the error to be handled by the caller
     throw new Error(error.response ? error.response.data.message : error.message);
 }
 };
@@ -72,15 +70,15 @@ export const createBooking = (bookingData) => async (dispatch) => {
     }
   };
   
-  // Get All Bookings for User
   export const getAllBookingsForUser = () => async (dispatch) => {
     dispatch({ type: GET_ALL_BOOKINGS_REQUEST });
     try {
-      const response = await axios.get('/api/bookings');
+      const response = await api.get('/api/bookings');
       dispatch({
         type: GET_ALL_BOOKINGS_SUCCESS,
         payload: response.data,
       });
+      console.log("get all booking cars", response.data);
     } catch (error) {
       dispatch({
         type: GET_ALL_BOOKINGS_FAILURE,

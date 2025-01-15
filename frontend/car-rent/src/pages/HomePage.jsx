@@ -8,10 +8,11 @@ import { getUser } from '../Redux/Auth/Action';
 
 const HomePage = () => {
     const dispatch = useDispatch();
+    const jwt = localStorage.getItem('jwt');
 
     useEffect(() => {
-        dispatch(getUser())
-    }, [dispatch])
+        dispatch(getUser(jwt))
+    }, [dispatch, jwt])
 
     return (
         <section 

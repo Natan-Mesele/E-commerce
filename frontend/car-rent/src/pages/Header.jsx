@@ -64,7 +64,7 @@ function Header() {
             {/* Brand Logo */}
             <div className='w-16 h-16'>
                 <Link to="/">
-                    <img src="https://img.lovepik.com/png/20230928/vector-corporate-personality-color-logo-colorful-logo-creative-logo-graphics_9567_wh1200.png" alt="" className="w-full h-full object-contain" />
+                    <img src="logo.png" alt="" className="w-full h-full object-contain" />
                 </Link>
             </div>
             {/* Mobile Menu Button */}
