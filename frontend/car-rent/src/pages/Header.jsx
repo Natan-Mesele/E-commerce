@@ -62,11 +62,9 @@ function Header() {
     return (
         <div className="sticky top-0 z-50 flex items-center justify-between px-4 md:px-16 py-4 bg-white shadow-">
             {/* Brand Logo */}
-            <div className='w-16 h-16'>
                 <Link to="/">
-                    <img src="logo.png" alt="" className="w-full h-full object-contain" />
+                    <img src="/logo.png" alt="" className="w-32 h-auto object-contain" />
                 </Link>
-            </div>
             {/* Mobile Menu Button */}
             <div className="md:hidden">
                 <button onClick={toggleMobileMenu} className="text-gray-700 hover:text-gray-900 focus:outline-none">
@@ -87,10 +85,7 @@ function Header() {
                         <span>🚗</span>
                         <span>Tour Car</span>
                     </Link>
-                    <Link to="/wedding-car" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
-                        <span>💍</span>
-                        <span>Wedding Car</span>
-                    </Link>
+                   
                     <Link to="/contact" className="flex items-center space-x-2 hover:text-gray-500 border-b border-gray-300 pb-2" onClick={toggleMobileMenu}>
                         <span>📄</span>
                         <span>Contact Us</span>
@@ -125,10 +120,8 @@ function Header() {
                     <span>🚗</span>
                     <span>Tour Car</span>
                 </Link>
-                <Link to="/wedding-car" className="flex items-center space-x-2 hover:text-gray-500">
-                    <span>💍</span>
-                    <span>Wedding Car</span>
-                </Link>
+                
+
                 <Link to="/contact" className="flex items-center space-x-2 hover:text-gray-500">
                     <span>📄</span>
                     <span>Contact Us</span>
@@ -142,9 +135,15 @@ function Header() {
             <div className="hidden md:flex items-center space-x-4">
                 {isLoggedIn ? (
                     <>
-                        <button className="flex items-center space-x-2 hover:text-gray-500 text-left" onClick={toggleProfileDropdown}>
+                        <button
+                            className="flex justify-between items-center hover:text-gray-500 text-left w-full gap-4"
+                            onClick={toggleProfileDropdown}
+                        >
                             <span>👤</span>
-                            <span>{user?.fullName} </span>
+                            <div className="flex justify-between w-full gap-2">
+                                <span>{user?.fullName?.split(' ')[0]}</span> {/* First Name */}
+                                <span>{user?.fullName?.split(' ')[1]}</span> {/* Last Name */}
+                            </div>
                         </button>
                         <Link to="/check" className="relative block w-full px-4 py-2 text-gray-700 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 text-left">
                             <FaShoppingCart className="w-6 h-6" />

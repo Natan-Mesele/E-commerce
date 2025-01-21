@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import EditProfile from "./EditProfile";
+import Password from "./Password";
 
 const UserProfile = () => {
-  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("orders");
   const user = useSelector((state) => state.auth.user);
 
@@ -30,7 +30,7 @@ const UserProfile = () => {
             <h2 className="text-3xl font-semibold text-gray-800">My Account</h2>
             <p className="text-gray-600 mt-2">
               Hello{" "}
-              <span className="font-bold">{user?.firstName || "User"}</span>,
+              <span className="font-bold">{user.fullName || "User"}</span>,
               this is your account dashboard. See your previous orders, delivery
               locations, and contact information.
             </p>
@@ -39,28 +39,26 @@ const UserProfile = () => {
             Quick Tasks
           </h2>
           <div className="space-y-4">
-            {[
-         
-              { id: "profile", label: "Edit My Profile" },
-            
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                className={`w-full text-left px-4 py-2 font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === tab.id
-                    ? "bg-blue-600 text-white shadow-md"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                }`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
+            {[{ id: "profile", label: "Edit My Profile" }, { id: "change-password", label: "Change Password" }]
+              .map((tab) => (
+                <button
+                  key={tab.id}
+                  className={`w-full text-left px-4 py-2 font-medium rounded-lg transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                  }`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.label}
+                </button>
+              ))}
           </div>
         </div>
         {/* Main Content */}
         <div className="w-3/4 p-6 bg-white rounded-r-lg">
           {activeTab === "profile" && <EditProfile />}
+          {activeTab === 'change-password' && <Password />}  {/* Correct usage of ChangePassword */}
         </div>
       </div>
     </div>

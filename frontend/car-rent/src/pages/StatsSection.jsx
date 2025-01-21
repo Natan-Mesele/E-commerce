@@ -4,44 +4,47 @@ import { FaUsers, FaShareAlt, FaHandshake, FaCalendarAlt } from 'react-icons/fa'
 function StatsSection() {
   return (
     <div
-      className="w-full"
+      className="w-full relative"
       style={{
-        backgroundImage:
-          'url("https://image-optimizer.cyberriskalliance.com/unsafe/1920x0/https://files.cyberriskalliance.com/wp-content/uploads/2023/08/networking-GettyImages-2-1327187531.jpg")',
+        backgroundImage: 'url("https://img.freepik.com/free-vector/worldwide-connection-gray-background-illustration-vector_53876-61769.jpg")',
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        padding: '4rem 0', // Adjusting padding for vertical spacing
+        backgroundPosition: 'center center',
+        padding: '4rem 0',
       }}
     >
-      <h2 className="text-4xl font-bold text-center text-white mb-8">Our Achievements</h2>
+      <div className="bg-gradient-to-r from-black via-transparent to-black absolute inset-0 opacity-80"></div>
+      
+      <h2 className="text-4xl md:text-5xl font-extrabold text-center text-gray-200 mb-12 relative z-10">
+        Our Achievements
+      </h2>
 
-      <div className="flex justify-between items-center px-4 sm:px-8 md:px-16 space-x-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4 sm:px-8 md:px-16 relative z-10">
         {/* Clients */}
-        <div className="text-center flex-1">
-          <FaUsers className="text-6xl text-blue-500 mb-4" />
+        <div className="text-center bg-black bg-opacity-50 rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-lg">
+          <FaUsers className="text-6xl md:text-7xl text-custom-primary mb-4 mx-auto animate-bounce" />
           <h3 className="text-2xl font-semibold text-white mb-2">Our Clients</h3>
-          <p className="text-xl text-white">1,623</p>
+          <p className="text-xl text-gray-200 font-medium">1,623</p>
         </div>
 
         {/* Social Media Reach */}
-        <div className="text-center flex-1">
-          <FaShareAlt className="text-6xl text-blue-500 mb-4" />
+        <div className="text-center bg-black bg-opacity-50 rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-lg">
+          <FaShareAlt className="text-6xl md:text-7xl text-custom-primary mb-4 mx-auto animate-bounce" />
           <h3 className="text-2xl font-semibold text-white mb-2">Reaches on Social Media</h3>
-          <p className="text-xl text-white">110,000</p>
+          <p className="text-xl text-gray-200 font-medium">110,000</p>
         </div>
 
         {/* Partners */}
-        <div className="text-center flex-1">
-          <FaHandshake className="text-6xl text-blue-500 mb-4" />
+        <div className="text-center bg-black bg-opacity-50 rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-lg">
+          <FaHandshake className="text-6xl md:text-7xl text-custom-primary mb-4 mx-auto animate-bounce" />
           <h3 className="text-2xl font-semibold text-white mb-2">Partners Working With</h3>
-          <p className="text-xl text-white">12</p>
+          <p className="text-xl text-gray-200 font-medium">12</p>
         </div>
 
         {/* Events */}
-        <div className="text-center flex-1">
-          <FaCalendarAlt className="text-6xl text-blue-500 mb-4" />
+        <div className="text-center bg-black bg-opacity-50 rounded-lg p-6 transform transition-transform hover:scale-105 hover:shadow-lg">
+          <FaCalendarAlt className="text-6xl md:text-7xl text-custom-primary mb-4 mx-auto animate-bounce" />
           <h3 className="text-2xl font-semibold text-white mb-2">Events</h3>
-          <p className="text-xl text-white">14</p>
+          <p className="text-xl text-gray-200 font-medium">14</p>
         </div>
       </div>
     </div>

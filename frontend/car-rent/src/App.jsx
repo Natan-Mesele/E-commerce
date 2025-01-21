@@ -10,8 +10,13 @@ import CheckOut from './pages/CheckOut';
 import ContactUs from './pages/ContactUs';
 import About from './pages/About';
 import CarDetail from './car/CarDetail';
+import { useSelector } from 'react-redux';
+import WeddingCarList from './car/weddinglist';
+import WeddingDetail from './car/weddingDetail';
+import Footer from './pages/Footer';
 
 function App() {
+  const cars = useSelector((state) => state.cars.cars);
   return (
     <>
       <Header />
@@ -25,8 +30,11 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
-        <Route path="/car/:carId" element={<CarDetail />} />
+        <Route  path="/car-detail/:carId" element={<CarDetail cars={cars}/>} />
+        <Route path="/wedding" element={<WeddingCarList />} />
+        <Route path="/wedding-detail/:carId" element={<WeddingDetail />} />
       </Routes>
+      <Footer />
     </>
   );
 }

@@ -10,6 +10,7 @@ router.post("/", authenticate, checkAdmin, carController.createCar);
 // Other car routes
 router.get("/", carController.getAllCars);
 router.get("/:id", carController.getCarById);
+router.get("/", carController.getCarsByCategory);
 router.put("/:id", authenticate, checkAdmin, carController.updateCar);
 router.delete("/:id", authenticate, checkAdmin, carController.deleteCar);
 

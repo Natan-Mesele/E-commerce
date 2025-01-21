@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CAR_CREATE_FAILURE, CAR_CREATE_REQUEST, CAR_CREATE_SUCCESS, CAR_DELETE_FAILURE, CAR_DELETE_REQUEST, CAR_DELETE_SUCCESS, CAR_FETCH_ALL_FAILURE, CAR_FETCH_ALL_REQUEST, CAR_FETCH_ALL_SUCCESS, CAR_FETCH_BY_ID_FAILURE, CAR_FETCH_BY_ID_REQUEST, CAR_FETCH_BY_ID_SUCCESS, CAR_UPDATE_FAILURE, CAR_UPDATE_REQUEST, CAR_UPDATE_SUCCESS } from "./ActionType";
+import { CAR_CREATE_FAILURE, CAR_CREATE_REQUEST, CAR_CREATE_SUCCESS, CAR_DELETE_FAILURE, CAR_DELETE_REQUEST, CAR_DELETE_SUCCESS, CAR_FETCH_ALL_FAILURE, CAR_FETCH_ALL_REQUEST, CAR_FETCH_ALL_SUCCESS, CAR_FETCH_BY_ID_FAILURE, CAR_FETCH_BY_ID_REQUEST, CAR_FETCH_BY_ID_SUCCESS, CAR_UPDATE_FAILURE, CAR_UPDATE_REQUEST, CAR_UPDATE_SUCCESS, GET_CARS_BY_CATEGORY_FAILURE, GET_CARS_BY_CATEGORY_REQUEST, GET_CARS_BY_CATEGORY_SUCCESS } from "./ActionType";
 import api from "../config/api";
 
 export const createCar = (carData) => async (dispatch) => {
@@ -47,6 +47,7 @@ export const fetchCarById = (carId) => async (dispatch) => {
       type: CAR_FETCH_BY_ID_SUCCESS,
       payload: data,
     });
+    console.log("fetch car by id", data);
   } catch (error) {
     dispatch({
       type: CAR_FETCH_BY_ID_FAILURE,
@@ -87,6 +88,27 @@ export const deleteCar = (id) => async (dispatch) => {
     dispatch({
       type: CAR_DELETE_FAILURE,
       payload: error.response?.data?.message || error.message,
+    });
+  }
+};
+
+export const getCarsByCategory = (category) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_CARS_BY_CATEGORY_REQUEST }); // Dispatch request action
+    
+    // Make API call to fetch cars by category
+    const response = await axios.get(`/api/cars?category=${category}`);
+    
+    dispatch({
+      type: GET_CARS_BY_CATEGORY_SUCCESS,
+      payload: response.data, // Pass the cars data to the success action
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_CARS_BY_CATEGORY_FAILURE,
+      payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
     });
   }
 };

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const CarCard = ({ car, onBookNow }) => {
+const CarCard = ({ car }) => {
+    const navigate = useNavigate();
+
     return (
         <div className="bg-white rounded-lg shadow-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
             <div className="relative">
@@ -19,13 +22,11 @@ const CarCard = ({ car, onBookNow }) => {
                     <p><strong>Seats:</strong> {car.seats}</p>
                     <p><strong>Transmission:</strong> {car.transmission}</p>
                     <p><strong>Fuel Type:</strong> {car.fuelType}</p>
-                    <p className="text-2xl font-semibold text-blue-600">
-                        ${car.pricePerDay}/day
-                    </p>
+                    <p className="text-2xl font-semibold text-black">${car.pricePerDay}/day</p>
                 </div>
                 <button 
-                    onClick={onBookNow}
-                    className="mt-6 w-full py-3 px-6 rounded-sm bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold text-lg border-2 border-blue-500 hover:bg-white hover:text-blue-200 transition duration-300 transform hover:scale-105"
+                    onClick={() => navigate(`/car-detail/${car._id}`)}
+                    className="mt-6 w-full py-3 px-6 rounded-lg bg-custom-primary text-white font-semibold hover:bg-custom-secondary hover:text-white transition duration-300"
                 >
                     Rent Now
                 </button>

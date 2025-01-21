@@ -4,13 +4,14 @@ const bcrypt = require('bcrypt');
 
 const register = async (req, res) => {
     try {
-        const user = await userService.createUser(req.body);
+        const user = await userService.createUser(req.body); // The createUser method will handle the confirmPassword logic
         const jwt = generateToken(user._id);
-        return res.status(201).send({jwt,message: "register success", user})
+        return res.status(201).send({ jwt, message: "Register success", user });
     } catch (error) {
-        return res.status(400).send({error: error.message})
+        return res.status(400).send({ error: error.message });
     }
 }
+
 
 const login = async (req, res) => {
     const { password, email } = req.body;

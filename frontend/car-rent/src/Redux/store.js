@@ -5,11 +5,15 @@ import storage from "redux-persist/lib/storage";
 import { authReducer } from "./Auth/Reducer";
 import carReducer from "./car/Reducer";
 import bookingReducer from "./booking/Reducer";
+import reviewReducer from "./review/Reducer";
+import weddingCarReducer from "./weddingcar/Reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   cars: carReducer,
-  bookings: bookingReducer
+  bookings: bookingReducer,
+  review: reviewReducer,
+  weddingCar: weddingCarReducer
 });
 
 const persistConfig = {

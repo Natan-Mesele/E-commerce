@@ -22,4 +22,10 @@ app.use("/api/cars", carRoutes);
 const bookingRoutes = require("./routes/bookingRoutes");
 app.use("/api/bookings", bookingRoutes);
 
+const reviewRoutes = require("./routes/reviewRoutes.js");
+app.use("/api/review", reviewRoutes);
+
+const weddingCarRoutes = require("./routes/weddingcarRoutes.js");
+app.use("/api/wedding-car", weddingCarRoutes);
+
 module.exports = app;

@@ -1,86 +1,86 @@
 import React, { useState } from "react";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { useDispatch } from "react-redux";
+import { register } from "../Redux/Auth/Action";
 
 const SignUp = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const dispatch = useDispatch(); // Initialize dispatch
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState(""); // State for phone number
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [error, setError] = useState(""); // For displaying errors
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
+    const trimmedPassword = password.trim();
+    const trimmedConfirmPassword = confirmPassword.trim();
+
+    // Password validation
+    if (trimmedPassword !== trimmedConfirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
+    if (!isValidPhoneNumber(phoneNumber)) {
+      setError("Invalid phone number for the selected country.");
+      return;
+    }
+
     const userData = {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
+      fullName,
+      emailValue: email,
+      password: trimmedPassword,
+      confirmPassword: trimmedConfirmPassword, 
       phoneNumber,
     };
 
-    // You can add logic here to handle form submission (e.g., calling an API)
-    console.log("User Data Submitted:", userData);
+    dispatch(register(userData));
+    setError(""); 
+    alert("Sign-up successful!");
   };
 
   return (
     <div className="container mx-auto px-6 py-12">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Sign Up</h2>
       <form className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6" onSubmit={handleSubmit}>
-        {/* First Name */}
+        {/* Full Name */}
         <div className="mb-4">
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-            First Name
+          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+            Full Name
           </label>
           <input
             type="text"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            id="fullName"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            placeholder="John"
+            placeholder="John Doe"
             required
           />
         </div>
 
-        {/* Last Name */}
-        <div className="mb-4">
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-            Last Name
-          </label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Doe"
-            required
-          />
-        </div>
-
-        {/* Phone Number */}
+        {/* Phone Number with Country Code */}
         <div className="mb-4">
           <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
             Phone Number
           </label>
-          <input
-            type="tel"
+          <PhoneInput
             id="phoneNumber"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(value) => {
+              setPhoneNumber(value);
+              setError(""); // Clear any error when the input changes
+            }}
             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            placeholder="(123) 456-7890"
-            pattern="^\(\d{3}\) \d{3}-\d{4}$"
+            placeholder="Enter phone number"
+            defaultCountry="US"
             required
           />
-          <small className="text-gray-500">Format: (123) 456-7890</small>
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
 
         {/* Email Address */}
