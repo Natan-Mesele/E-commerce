@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "http://localhost:3001";
+export const API_BASE_URL = "https://car-rent-backend-a5n6.onrender.com";
 
 const api = axios.create({baseURL:API_BASE_URL})
 
