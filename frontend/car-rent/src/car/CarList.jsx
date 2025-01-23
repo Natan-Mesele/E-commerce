@@ -6,11 +6,7 @@ import CarCard from './CarCard';
 const CarList = () => {
     const dispatch = useDispatch();
     const { cars, loading, error } = useSelector((state) => state.cars);
-
-    // State for search query
     const [searchQuery, setSearchQuery] = useState('');
-
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const carsPerPage = 9;
 
@@ -18,24 +14,18 @@ const CarList = () => {
         dispatch(fetchAllCars());
     }, [dispatch]);
 
-    // Ensure cars is always an array
+   
     const carArray = Array.isArray(cars) ? cars : [];
-
-    // Filter cars based on the search query (by name or brand)
     const filteredCars = carArray.filter((car) => 
         car.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
         car.brand.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Pagination Logic: Get the cars for the current page
     const indexOfLastCar = currentPage * carsPerPage;
     const indexOfFirstCar = indexOfLastCar - carsPerPage;
     const currentCars = filteredCars.slice(indexOfFirstCar, indexOfLastCar);
-
-    // Total pages
     const totalPages = Math.ceil(filteredCars.length / carsPerPage);
 
-    // Handle page change (Next/Previous)
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);

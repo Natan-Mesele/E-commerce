@@ -1,8 +1,29 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CarCard = ({ car }) => {
     const navigate = useNavigate();
+
+    const handleRentNowClick = () => {
+        const jwt = localStorage.getItem('jwt');
+
+        if (!jwt) {
+            toast.warning('Please login to book a car.', {
+                position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            return;
+        }
+
+        // Navigate to the car details page if the user is logged in
+        navigate(`/car-detail/${car._id}`);
+    };
 
     return (
         <div className="bg-white rounded-lg shadow-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
@@ -25,7 +46,7 @@ const CarCard = ({ car }) => {
                     <p className="text-2xl font-semibold text-black">${car.pricePerDay}/day</p>
                 </div>
                 <button 
-                    onClick={() => navigate(`/car-detail/${car._id}`)}
+                    onClick={handleRentNowClick}
                     className="mt-6 w-full py-3 px-6 rounded-lg bg-custom-primary text-white font-semibold hover:bg-custom-secondary hover:text-white transition duration-300"
                 >
                     Rent Now

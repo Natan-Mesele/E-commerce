@@ -14,11 +14,13 @@ import { useSelector } from 'react-redux';
 import WeddingCarList from './car/weddinglist';
 import WeddingDetail from './car/weddingDetail';
 import Footer from './pages/Footer';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const cars = useSelector((state) => state.cars.cars);
   return (
     <>
+     <ToastContainer position="top-right" autoClose={3000} />
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />

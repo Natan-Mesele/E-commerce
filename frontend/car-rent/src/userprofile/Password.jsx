@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changePassword } from '../Redux/Auth/Action';
+import { toast } from 'react-toastify';
 
 function Password() {
   const dispatch = useDispatch(); // Initialize the dispatch function
@@ -21,8 +22,12 @@ function Password() {
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError('New password and confirmation do not match.');
+      toast.error('New password and confirmation do not match.');
       return;
+    }
+
+    if(!oldPassword){
+      toast.error('current password is not match to ')
     }
 
     const passwordData = {
@@ -33,7 +38,7 @@ function Password() {
     // Dispatch the changePassword action
     dispatch(changePassword(passwordData))
       .then((response) => {
-        setSuccess('Password change request has been sent!');
+        toast.success('Password change request has been sent!');
         setOldPassword('');
         setNewPassword('');
         setConfirmPassword('');

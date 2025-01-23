@@ -120,8 +120,6 @@ function Header() {
                     <span>🚗</span>
                     <span>Tour Car</span>
                 </Link>
-                
-
                 <Link to="/contact" className="flex items-center space-x-2 hover:text-gray-500">
                     <span>📄</span>
                     <span>Contact Us</span>

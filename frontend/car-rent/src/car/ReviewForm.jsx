@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { createReview, fetchReviews } from '../Redux/review/Action';
+import { toast } from 'react-toastify';
 
 const ReviewForm = ({ carId }) => {
   const [rating, setRating] = useState(1);
@@ -15,8 +16,9 @@ const ReviewForm = ({ carId }) => {
     try {
       await dispatch(createReview(userId, reviewData));
       await dispatch(fetchReviews(userId, carId)); 
-      setRating(1); // Reset rating
-      setComment(''); // Reset comment
+      setRating(1); 
+      setComment('');
+      toast.success("Review submitted successfully!");
     } catch (err) {
       const errorMessage =
         err?.response?.data?.message === "You have already reviewed this car"
@@ -26,7 +28,6 @@ const ReviewForm = ({ carId }) => {
       setError(errorMessage); // Set the error state to display an error message
     }
   };
-   
 
   const handleRatingClick = (value) => {
     setRating(value);

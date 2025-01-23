@@ -6,6 +6,8 @@ import ReviewForm from './ReviewForm';
 import ReviewsList from './ReviewsList';
 import { fetchCarById } from '../Redux/car/Action';
 import { FaPen } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CarDetail = () => {
   const { carId } = useParams();
@@ -19,10 +21,19 @@ const CarDetail = () => {
   const jwt = localStorage.getItem('jwt');
 
   useEffect(() => {
-    if (carId) {
-      dispatch(fetchCarById(carId, jwt)); // Fetch car details by carId
-    }
+    const fetchData = async () => {
+      if (carId) {
+        try {
+          await dispatch(fetchCarById(carId, jwt)); // Fetch car details by carId
+        } catch (error) {
+          console.error('Error fetching car details:', error);
+        }
+      }
+    };
+  
+    fetchData();
   }, [dispatch, carId, jwt]);
+  
 
   if (error) {
     return <p className="text-center text-red-600">Error: {error}</p>;
@@ -44,7 +55,7 @@ const CarDetail = () => {
     const jwt = localStorage.getItem('jwt');
 
     if (!jwt) {
-      alert('To book a car, first log in.');
+      toast.error('To book a car, first log in.');
       return;
     }
 
@@ -58,12 +69,12 @@ const CarDetail = () => {
 
     const rentalDuration = Math.ceil((end - start) / (1000 * 3600 * 24));
     if (rentalDuration <= 0) {
-      alert('The rental duration must be at least 1 day.');
+      toast.error('The rental duration must be at least 1 day.');
       return;
     }
 
     if (car.availability <= 0) {
-      alert('This car is not available for booking as it is rented by someone else.');
+      toast.error('This car is not available for booking as it is rented by someone else.');
       return;
     }
 
@@ -79,7 +90,7 @@ const CarDetail = () => {
 
     try {
       await dispatch(createBooking(bookingData));
-      alert('Booking successful!');
+      toast.success('Booking successful!');
     } catch (error) {
       alert(error.message || 'An error occurred.');
     }

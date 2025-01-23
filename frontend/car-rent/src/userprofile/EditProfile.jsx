@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { editProfile } from '../Redux/Auth/Action';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function EditProfile() {
   const [name, setName] = useState('');
@@ -25,8 +26,8 @@ function EditProfile() {
     console.log("Profile data before dispatch:", profileData);
     dispatch(editProfile(profileData));
 
-    // Assume the profile is updated successfully
-    setSuccess('Profile updated successfully!');
+    toast.success('Profile updated successfully!');
+   
     setName('');
     setEmail('');
     setPhone('');

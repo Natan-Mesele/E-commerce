@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviews, deleteReview, updateReview } from '../Redux/review/Action';
 import { getUser } from '../Redux/Auth/Action';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReviewsList = () => {
   const dispatch = useDispatch();
@@ -31,8 +33,9 @@ const ReviewsList = () => {
 
   const handleDelete = async (reviewId) => {
     try {
-      await dispatch(deleteReview(userId, carId, reviewId));  // Wait for delete review to complete
-      await dispatch(fetchReviews(userId, carId));     // Fetch the updated list of reviews
+      await dispatch(deleteReview(userId, carId, reviewId));  
+      await dispatch(fetchReviews(userId, carId));    
+      toast.success("Review deleted successfully!");
     } catch (error) {
       console.error("Error deleting review or fetching reviews:", error);
     }
@@ -49,7 +52,7 @@ const ReviewsList = () => {
 
   const handleSaveEdit = async () => {
     if (!carId) {
-      console.error("Car ID is undefined, cannot update review.");
+      toast.error("Car ID is undefined, cannot update review.");
       return;
     }
   
@@ -62,6 +65,7 @@ const ReviewsList = () => {
       try {
         await dispatch(updateReview(userId, updatedReviewData));
         await dispatch(fetchReviews(userId, carId));
+        toast.success("Review updated successfully!");
       } catch (error) {
         console.error("Error updating review or fetching reviews:", error);
       }

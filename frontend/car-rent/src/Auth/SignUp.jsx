@@ -3,6 +3,7 @@ import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useDispatch } from "react-redux";
 import { register } from "../Redux/Auth/Action";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const dispatch = useDispatch(); // Initialize dispatch
@@ -12,6 +13,19 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(""); // For displaying errors
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Password must be at least 8 characters long and include at least one letter, one number, and one special character."
+      );
+      return false; // Return false to stop further execution
+    }
+    return true; // Return true if password is valid
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,14 +33,17 @@ const SignUp = () => {
     const trimmedPassword = password.trim();
     const trimmedConfirmPassword = confirmPassword.trim();
 
-    // Password validation
+    if (!validatePassword(trimmedPassword)) {
+      return;
+    }
+
     if (trimmedPassword !== trimmedConfirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
     if (!isValidPhoneNumber(phoneNumber)) {
-      setError("Invalid phone number for the selected country.");
+      toast.error("Invalid phone number for the selected country.");
       return;
     }
 
@@ -39,8 +56,8 @@ const SignUp = () => {
     };
 
     dispatch(register(userData));
-    setError(""); 
-    alert("Sign-up successful!");
+    setError("");
+    toast.success("Sign-up successful!");
   };
 
   return (
@@ -63,7 +80,7 @@ const SignUp = () => {
           />
         </div>
 
-        {/* Phone Number with Country Code */}
+        {/* Phone Number */}
         <div className="mb-4">
           <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
             Phone Number
@@ -104,15 +121,24 @@ const SignUp = () => {
           <label htmlFor="password" className="block text-sm font-medium text-gray-700">
             Create a Password
           </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            placeholder="********"
-            required
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              placeholder="********"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 px-3 text-gray-500 focus:outline-none"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         {/* Confirm Password */}
@@ -120,15 +146,24 @@ const SignUp = () => {
           <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
             Confirm Password
           </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            placeholder="********"
-            required
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              placeholder="********"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 px-3 text-gray-500 focus:outline-none"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         {/* Submit Button */}

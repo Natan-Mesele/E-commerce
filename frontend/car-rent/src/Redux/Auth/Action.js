@@ -6,8 +6,8 @@ export const register = (userData) => async (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
   try {
     const { data } = await axios.post(`${API_BASE_URL}/auth/signup`, userData);
-    if (data.jwt) {
-      localStorage.setItem("jwt", data.jwt);
+
+    if (data.jwt) {  // Correct placement of the if condition
       dispatch({ type: REGISTER_SUCCESS, payload: data.jwt });
       console.log("Register success:", data);
     } else {
@@ -17,6 +17,7 @@ export const register = (userData) => async (dispatch) => {
     console.log("Error during registration:", error);
   }
 };
+
 
 export const login = (formData) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
@@ -28,7 +29,7 @@ export const login = (formData) => async (dispatch) => {
       const userId = data.user._id;
       if (userId) {
         localStorage.setItem("jwt", data.jwt);
-        localStorage.setItem("userId", userId);  // Store userId
+        localStorage.setItem("userId", userId);  
         dispatch({
           type: LOGIN_SUCCESS,
           payload: {
