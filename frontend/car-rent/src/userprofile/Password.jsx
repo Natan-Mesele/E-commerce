@@ -10,6 +10,9 @@ function Password() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,25 +24,25 @@ function Password() {
       setError('All fields are required.');
       return;
     }
+
+    // Check if new password matches confirm password
     if (newPassword !== confirmPassword) {
       toast.error('New password and confirmation do not match.');
       return;
     }
 
-    // Password strength validation: must be at least 8 characters, and contain letters, numbers, and special characters
+    // Password strength validation: Must contain letter, number, and special character
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
     if (!passwordRegex.test(newPassword)) {
       toast.error('Password must be at least 8 characters long and include a letter, a number, and a special character.');
       return;
     }
 
     const passwordData = {
-      oldPassword: oldPassword,  // Ensure this is not empty
-      newPassword: newPassword   // Ensure this is not empty
+      oldPassword: oldPassword,
+      newPassword: newPassword,
     };
 
-    // Dispatch the changePassword action
     dispatch(changePassword(passwordData))
       .then((response) => {
         toast.success('Password change request has been sent!');
@@ -55,45 +58,72 @@ function Password() {
   return (
     <div className="max-w-lg mx-auto p-6 bg-white">
       <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Change Password</h2>
-      
+
       <form onSubmit={handleSubmit}>
         {/* Old Password */}
         <div className="mb-4">
           <label htmlFor="oldPassword" className="block text-gray-600 mb-2">Current Password</label>
-          <input
-            type="password"
-            id="oldPassword"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter current password"
-          />
+          <div className="relative">
+            <input
+              type={showOldPassword ? 'text' : 'password'}
+              id="oldPassword"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter current password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowOldPassword(!showOldPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            >
+              {showOldPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
         </div>
 
         {/* New Password */}
         <div className="mb-4">
           <label htmlFor="newPassword" className="block text-gray-600 mb-2">New Password</label>
-          <input
-            type="password"
-            id="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter new password"
-          />
+          <div className="relative">
+            <input
+              type={showNewPassword ? 'text' : 'password'}
+              id="newPassword"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter new password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowNewPassword(!showNewPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            >
+              {showNewPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
         </div>
 
         {/* Confirm New Password */}
         <div className="mb-6">
           <label htmlFor="confirmPassword" className="block text-gray-600 mb-2">Confirm New Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Confirm new password"
-          />
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Confirm new password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            >
+              {showConfirmPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
         </div>
 
         {/* Error and Success Messages */}
