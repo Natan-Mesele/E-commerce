@@ -26,8 +26,12 @@ function Password() {
       return;
     }
 
-    if(!oldPassword){
-      toast.error('current password is not match to ')
+    // Password strength validation: must be at least 8 characters, and contain letters, numbers, and special characters
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(newPassword)) {
+      toast.error('Password must be at least 8 characters long and include a letter, a number, and a special character.');
+      return;
     }
 
     const passwordData = {
