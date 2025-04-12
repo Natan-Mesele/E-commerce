@@ -6,7 +6,7 @@ const initialState = {
   error: null,
   jwt: localStorage.getItem("jwt") || null,
   success: null,
-  registered: false, // New flag
+  registered: false, 
 };
 
 export const authReducer = (state = initialState, action) => {

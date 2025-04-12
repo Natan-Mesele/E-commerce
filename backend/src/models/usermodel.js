@@ -1,23 +1,36 @@
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const UserSchema = new mongoose.Schema({
-    fullName:String,
-    email:String,
-    password:String, 
+    name: {  // Changed from fullName to name
+        type: String,
+        required: true, 
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String, 
+    },
+    photoUrl: {
+        type: String,  
+    },
     phoneNumber: String,
-    role:{
-        type:String,
+    role: {
+        type: String,
         default: 'ROLE_USER',
-        enum: ['ROLE_USER', 'ROLE_ADMIN']
+        enum: ['ROLE_USER', 'ROLE_ADMIN'],
     },
     rentals: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Rental', // Reference to the Rental model
+        ref: 'Rental', 
     }],
     favorites: [{
         carId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Car', // Reference to the Car model
+            ref: 'Car', 
         },
     }],
     addresses: [{
@@ -37,6 +50,19 @@ const UserSchema = new mongoose.Schema({
         cardNumber: String,
         expiryDate: String,
     }],
+    uid: {
+        type: String, 
+        unique: true,
+    },
+}, {
+    timestamps: true, 
+});
+
+UserSchema.pre('save', function (next) {
+    if (!this.uid) {
+        this.uid = uuidv4(); // Generate a unique uid
+    }
+    next();
 });
 
 const User = mongoose.model("User", UserSchema);

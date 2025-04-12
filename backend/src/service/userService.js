@@ -6,35 +6,63 @@ const validatePassword = require("../utils/passwordValidator");
 module.exports = {
     async createUser(userData) {
         try {
-            let { fullName, emailValue, password, confirmPassword, role, phoneNumber } = userData;
-    
+            let { name, email, password, confirmPassword, role, phoneNumber } = userData;
+   
             if (password !== confirmPassword) {
                 throw new Error("Password and confirm password do not match");
             }
-    
+   
             validatePassword(password); // Validate password
-    
-            const isUserExist = await User.findOne({ email: emailValue });
-    
+   
+            const isUserExist = await User.findOne({ email });
+   
             if (isUserExist) {
                 throw new Error("User already exists with this email");
             }
-    
+   
             password = await bcrypt.hash(password, 8);
-    
+   
             const user = await User.create({
-                fullName,
-                email: emailValue,
+                name,
+                email,
                 password: password,
                 role,
                 phoneNumber
             });
-    
+   
             return user;
         } catch (error) {
             throw new Error(error.message);
         }
-    },
+    },   
+
+    async createOrFindUser(userData) {
+        console.log("Received user data in createOrFindUser: ", userData); // Add logging here
+    
+        let user = await User.findOne({ email: userData.email });
+    
+        if (!user) {
+            console.log("Creating a new user...");
+            user = new User({
+                name: userData.name,
+                email: userData.email,
+                photoUrl: userData.photoUrl,
+                uid: userData.uid,
+            });
+    
+            try {
+                await user.save();
+                console.log("New user saved: ", user);
+            } catch (error) {
+                console.error("Error saving user: ", error);
+                throw new Error("Error saving user to database");
+            }
+        } else {
+            console.log("User already exists: ", user);
+        }
+    
+        return user;
+    },   
 
     async getUserByEmail(email) {
         try {

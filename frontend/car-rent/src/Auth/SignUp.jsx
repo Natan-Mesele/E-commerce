@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const SignUp = () => {
   const dispatch = useDispatch(); // Initialize dispatch
-  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -48,12 +48,14 @@ const SignUp = () => {
     }
 
     const userData = {
-      fullName,
-      emailValue: email,
+      name,  
+      email,
       password: trimmedPassword,
-      confirmPassword: trimmedConfirmPassword, 
+      confirmPassword: trimmedConfirmPassword,
       phoneNumber,
+      role: "ROLE_USER",
     };
+    
 
     dispatch(register(userData));
     setError("");
@@ -66,14 +68,14 @@ const SignUp = () => {
       <form className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6" onSubmit={handleSubmit}>
         {/* Full Name */}
         <div className="mb-4">
-          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
             Full Name
           </label>
           <input
             type="text"
-            id="fullName"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             placeholder="John Doe"
             required

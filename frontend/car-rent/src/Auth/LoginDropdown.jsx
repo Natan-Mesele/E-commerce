@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../Redux/Auth/Action";
+import { auth, provider } from '../firebase';
+import { signInWithPopup } from "firebase/auth";
+import axios from "axios";
 
 const LoginDropdown = ({ setIsTyping }) => {
   const [email, setEmail] = useState("");
@@ -12,11 +15,34 @@ const LoginDropdown = ({ setIsTyping }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = { email, password };
- 
+
     if (setIsTyping) {
-      setIsTyping(false); 
+      setIsTyping(false);
     }
     dispatch(login(userData));
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const userData = {
+        name: user.displayName,     // Check if displayName is available
+        email: user.email,           // Check if email is available
+        photoUrl: user.photoURL,     // Check if photoURL is available
+        uid: user.uid,               // Ensure UID is provided
+      };
+
+      // Log user data to verify the values
+      console.log("Google Sign-In User Data: ", userData);
+
+      // Send userData to the backend
+      const response = await axios.post('http://localhost:3001/auth/google', userData);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error signing in with Google', error);
+    }
   };
 
   return (
@@ -35,10 +61,8 @@ const LoginDropdown = ({ setIsTyping }) => {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-
-              // Check if setIsTyping is provided before calling it
               if (setIsTyping) {
-                setIsTyping(true); 
+                setIsTyping(true);
               }
             }}
             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
@@ -57,8 +81,6 @@ const LoginDropdown = ({ setIsTyping }) => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-
-              // Check if setIsTyping is provided before calling it
               if (setIsTyping) {
                 setIsTyping(true);
               }
@@ -97,6 +119,22 @@ const LoginDropdown = ({ setIsTyping }) => {
             Forgot Password?
           </a>
         </p>
+      </div>
+
+      {/* Google Sign-In Button */}
+      <div className="mt-4 text-center">
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full flex items-center justify-center bg-white text-black py-2 px-4 rounded-md border-2 border-gray-300 hover:border-gray-500 transition-all duration-300"
+        >
+          {/* Google Icon */}
+          <img
+            src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+            alt="Google Logo"
+            className="w-6 h-6 mr-3"  // Adjust size as needed
+          />
+          Continue with Google
+        </button>
       </div>
     </div>
   );

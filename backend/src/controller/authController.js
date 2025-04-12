@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const register = async (req, res) => {
     try {
-        const user = await userService.createUser(req.body); // The createUser method will handle the confirmPassword logic
+        const user = await userService.createUser(req.body); 
         const jwt = generateToken(user._id);
         return res.status(201).send({ jwt, message: "Register success", user });
     } catch (error) {
@@ -12,9 +12,25 @@ const register = async (req, res) => {
     }
 }
 
+const googleSignUp = async (req, res) => {
+    const { name, email, photoUrl, uid } = req.body;  // Make sure this matches the sent data
+
+    try {
+        const user = await userService.createOrFindUser({ name, email, photoUrl, uid });
+        res.status(200).json({
+            message: user ? 'User logged in' : 'User created',
+            user,
+        });
+    } catch (error) {
+        console.error('Error during Google Sign-Up:', error);  // Log specific error
+        res.status(500).json({ message: 'Error handling Google sign-up', error: error.message });
+    }
+};
+
 
 const login = async (req, res) => {
     const { password, email } = req.body;
+
     try {
         const user = await userService.getUserByEmail(email);
         if (!user) {
@@ -35,5 +51,6 @@ const login = async (req, res) => {
 
 module.exports = {
     register,
-    login
+    login,
+    googleSignUp
 }

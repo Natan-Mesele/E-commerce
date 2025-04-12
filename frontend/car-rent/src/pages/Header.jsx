@@ -19,7 +19,7 @@ function Header() {
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
     const toggleProfileDropdown = () => setIsProfileDropdownOpen(!isProfileDropdownOpen);
-    const fullName = useSelector((state) => state.auth.fullName);
+    const name= useSelector((state) => state.auth.name);
     const jwt = localStorage.getItem("jwt");
     const user = useSelector((state) => state.auth.user);
 
@@ -98,7 +98,7 @@ function Header() {
                         <>
                             <button className="flex items-center space-x-2 hover:text-gray-500 text-left border-b border-gray-300 pb-2" onClick={toggleProfileDropdown}>
                                 <span>👤</span>
-                                <span>{user?.fullName}</span>
+                                <span>{user?.name}</span>
                             </button>
                             {isProfileDropdownOpen && (
                                 <div className="profile-dropdown mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md absolute right-0 w-40 flex flex-col items-center justify-center">
@@ -139,8 +139,8 @@ function Header() {
                         >
                             <span>👤</span>
                             <div className="flex justify-between w-full gap-2">
-                                <span>{user?.fullName?.split(' ')[0]}</span> {/* First Name */}
-                                <span>{user?.fullName?.split(' ')[1]}</span> {/* Last Name */}
+                                <span>{user?.name?.split(' ')[0]}</span> {/* First Name */}
+                                <span>{user?.name?.split(' ')[1]}</span> {/* Last Name */}
                             </div>
                         </button>
                         <Link to="/check" className="relative block w-full px-4 py-2 text-gray-700 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 text-left">
